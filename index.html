@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FX-PHUCSIO-232</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.1/math.min.js"></script>
+
+    <script src="https://unpkg.com/nerdamer@1.1.13/nerdamer.core.js"></script>
+    <script src="https://unpkg.com/nerdamer@1.1.13/Calculus.js"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+
+
+        .container {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        input {
+            border-radius: 5px;
+            margin-left: 5px;
+            width: 212px;
+            height: 30px;
+        }
+
+        button {
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #bdc5c5;
+        }
+
+        .buttonChar {
+            width: 40px;
+            height: 40px;
+            margin-top: 8px;
+        }
+
+        .div_button {
+            max-width: 310px;
+            /* border: black solid 2px; */
+            margin-left: 6px;
+        }
+
+        .result {
+
+            width: 500px;
+            height: 70px;
+            border: black solid 2px;
+            padding: 10px;
+            margin-top: 12px;
+            border-radius: 3px;
+            background-color: aliceblue;
+
+        }
+
+        .result2 {
+            display: none;
+
+            width: 500px;
+            height: 40px;
+            border: black solid 2px;
+            padding: 10px;
+            margin-top: 12px;
+            border-radius: 3px;
+            background-color: aliceblue;
+            overflow-x: auto;
+
+        }
+
+        .result3 {
+            display: none;
+
+            width: 500px;
+            height: 40px;
+            border: black solid 2px;
+            padding: 10px;
+            margin-top: 12px;
+            border-radius: 3px;
+            background-color: aliceblue;
+            overflow-x: auto;
+
+        }
+
+        .result_calc {
+            display: none;
+
+            width: 500px;
+            height: 30px;
+            border: black solid 2px;
+            padding: 10px;
+            margin-top: 12px;
+            border-radius: 3px;
+            background-color: aliceblue;
+
+        }
+
+        .bieu_thuc {
+            max-width: 400px;
+            overflow-x: auto;
+            height: 50px;
+        }
+
+        .CALC {
+            width: 100px;
+            height: 20px;
+        }
+
+        .calc_div {
+            display: none;
+            background-color: rgb(35, 73, 90);
+            border-radius: 5px;
+            padding-left: 5px;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div class="result" id="result"></div>
+        <div class="result2" id="result2"></div>
+        <div class="result3" id="result3"></div>
+        <div class="result_calc" id="result_calc"></div>
+    </div>
+    <div class="container">
+        <button onclick="X_CALC()">CALC</button>
+        <div class="calc_div" id="x_calc">
+            <label for="calc">\(x=\)</label>
+            <input type="text" id="calc" class="CALC" oninput="CALC()" onfocus="setActiveInput('calc')">
+        </div>
+    </div>
+    <div class="container">
+        <input type="text" id="fInput" oninput="updatePreview()" onfocus="setActiveInput('fInput')" value="">
+        <button onclick="addCharacter('Del')" style="width: 50px;">Del</button>
+        <button onclick="addCharacter('AC')" style="width: 50px;">AC</button>
+        <button onclick="Derivative()" style="width: 50px;">d/dx</button>
+        <button onclick="Integrate()" style="width: 50px;">\(\int\)</button>
+    </div>
+
+    <div class="div_button">
+        <button onclick="addCharacter('7')" class="buttonChar">7</button>
+        <button onclick="addCharacter('8')" class="buttonChar">8</button>
+        <button onclick="addCharacter('9')" class="buttonChar">9</button>
+        <button onclick="addCharacter('(')" class="buttonChar">(</button>
+        <button onclick="addCharacter(')')" class="buttonChar">)</button>
+        <button onclick="addCharacter('x')" class="buttonChar">\(x\)</button>
+        <button onclick="addCharacter('tan(')" class="buttonChar">tan</button>
+        <button onclick="addCharacter('4')" class="buttonChar">4</button>
+        <button onclick="addCharacter('5')" class="buttonChar">5</button>
+        <button onclick="addCharacter('6')" class="buttonChar">6</button>
+        <button onclick="addCharacter('*')" class="buttonChar">\(\times\)</button>
+        <button onclick="addCharacter('/')" class="buttonChar">\( \div \)</button>
+        <button onclick="addCharacter('abs(')" class="buttonChar">\(Abs\)</button>
+        <button onclick="addCharacter('cos(')" class="buttonChar">cos</button>
+        <button onclick="addCharacter('1')" class="buttonChar">1</button>
+        <button onclick="addCharacter('2')" class="buttonChar">2</button>
+        <button onclick="addCharacter('3')" class="buttonChar">3</button>
+        <button onclick="addCharacter('+')" class="buttonChar">\( + \)</button>
+        <button onclick="addCharacter('-')" class="buttonChar">\( - \)</button>
+        <button onclick="addCharacter('sqrt(')" class="buttonChar">√</button>
+        <button onclick="addCharacter('sin(')" class="buttonChar">sin</button>
+        <button onclick="addCharacter('.')" class="buttonChar">.</button>
+        <button onclick="addCharacter('0')" class="buttonChar">0</button>
+        <button onclick="addCharacter('e')" class="buttonChar">\( e \)</button>
+        <button onclick="addCharacter('pi')" class="buttonChar">\( pi \)</button>
+        <button onclick="addCharacter('^2')" class="buttonChar">\(x^2\)</button>
+        <button onclick="addCharacter('^')" class="buttonChar">\(x^n\)</button>
+        <button onclick="addCharacter('log(')" class="buttonChar">\(log\)</button>
+
+    </div>
+
+
+    <script>
+
+        // BƯỚC 1: Tạo một biến để "ghi nhớ" ô input đang được chọn
+        let activeInputField = document.getElementById('fInput'); // Mặc định là ô chính
+
+        // BƯỚC 2: Tạo hàm để cập nhật ô input đang được chọn
+        function setActiveInput(inputId) {
+            activeInputField = document.getElementById(inputId);
+        }
+
+        const calculateDerivative = (f, x) => math.derivative(f, 'x').evaluate({ x });
+        const calculateSecondDerivative = (f, x) => math.derivative(math.derivative(f, 'x'), 'x').evaluate({ x });
+
+        function calculate(fInput, iterations, a, b) {
+            if (isNaN(iterations) || iterations < 1) throw new Error('Có lỗi xảy ra');
+
+            const f = (x) => math.evaluate(fInput, { x });
+            const fPrime = (x) => calculateDerivative(fInput, x);
+            const fDoublePrime = (x) => calculateSecondDerivative(fInput, x);
+
+            let x0;
+            const fA = math.evaluate(fInput, { x: a });
+            const fDoublePrimeA = fDoublePrime(a);
+            const productA = fA * fDoublePrimeA;
+
+            if (productA > 0) {
+                x0 = a;
+            } else {
+                x0 = b;
+            }
+
+            let currentX = x0;
+            let iterationValues = [];
+            for (let i = 0; i < iterations; i++) {
+                const nextX = currentX - f(currentX) / fPrime(currentX);
+                iterationValues.push({ iteration: i + 1, nextX });
+                currentX = nextX;
+            }
+            return currentX;
+        }
+
+        function Solve(fInput, iteration) {
+            const check = calculate(fInput, iteration, -1000, 1000);
+            if (check === Number.NEGATIVE_INFINITY) {
+                return calculate(fInput, iteration, 1, 2000)
+            } return check;
+        }
+
+
+        function updatePreview() {
+            const fInput = document.getElementById('fInput').value;
+            const resultDisplay = document.getElementById('result');
+
+            resultDisplay.innerHTML = '';
+
+            try {
+                if (fInput.trim() === '') {
+                    return;
+                }
+                if (fInput.includes('x')) {
+                    const solution = Solve(fInput, 100);
+                    resultDisplay.innerHTML = `<div class="bieu_thuc">\\( ${math.parse(fInput).toTex().replace(/\*/g, ' \\times ').replace(/\\cdot/g, ' \\times ')} \\)</div>`;
+                    resultDisplay.innerHTML += `<div style="text-align: right;">\\( x = ${solution} \\)</div>`;
+                } else {
+                    const fTex = math.parse(fInput).toTex().replace(/\\cdot/g, ' \\times ');
+                    resultDisplay.innerHTML = `<div class="bieu_thuc">\\( ${fTex} \\)</div>`;
+                    resultDisplay.innerHTML += `<div style="text-align: right;">= ${math.evaluate(fInput)}  </div>`;
+                }
+                MathJax.typesetPromise();
+            } catch (e) {
+                resultDisplay.innerHTML = `<div class="bieu_thuc"> \\( ${fInput.replace(/\*/g, ' \\times ')} \\) </div>`;
+                MathJax.typesetPromise();
+            }
+        }
+
+        function Derivative() {
+            const fInput = document.getElementById('fInput').value;
+            document.getElementById('result3').style.display = 'none';
+            document.getElementById('result_calc').style.display = 'none';
+            const resultDisplay = document.getElementById('result2');
+            resultDisplay.style.display = 'block';
+
+            const fDerivative = math.derivative(fInput, 'x');
+            const simplifiedNode = math.simplify(fDerivative);
+
+            resultDisplay.innerHTML = '';
+            resultDisplay.innerHTML += `
+                <div> \\(\\frac{d}{dx} = ${simplifiedNode.toTex().replace(/\\cdot/g, ' \\times ')} \\) </div>
+            `;
+            MathJax.typesetPromise();
+        }
+        function Integrate() {
+            const fInput = document.getElementById('fInput').value;
+            document.getElementById('result2').style.display = 'none';
+            document.getElementById('result_calc').style.display = 'none';
+            const resultDisplay = document.getElementById('result3');
+            resultDisplay.style.display = 'block';
+
+            const integralTex = nerdamer.integrate(fInput, 'x').toTeX().replace(/\\cdot/g, ' \\times ');
+
+            resultDisplay.innerHTML = '';
+            resultDisplay.innerHTML += `
+                <div>\\( \\int f(x) \\, dx = ${integralTex} + C \\)</div>
+            `;
+            MathJax.typesetPromise();
+        }
+
+        function X_CALC() {
+            const x_calc = document.getElementById('x_calc');
+            x_calc.style.display = 'block';
+            activeInputField = document.getElementById('calc');
+        }
+
+        function CALC() {
+            const fInput = document.getElementById('fInput').value;
+            const value_calc = document.getElementById('calc').value;
+            document.getElementById('result2').style.display = 'none';
+            document.getElementById('result3').style.display = 'none';
+            const resultDisplay = document.getElementById('result_calc');
+            resultDisplay.style.display = 'block';
+
+            const value_evaluate = math.evaluate(value_calc);
+            const result_calced = math.evaluate(fInput, { x: value_evaluate });
+
+            resultDisplay.innerHTML = '';
+            resultDisplay.innerHTML += `
+                <div>\\( = ${result_calced} \\)</div>
+            `;
+            MathJax.typesetPromise();
+        }
+
+        // BƯỚC 3: Sửa lại hàm addCharacter để nó thông minh hơn
+        function addCharacter(character) {
+            // Nếu không có ô nào được chọn thì không làm gì cả
+            if (!activeInputField) return;
+
+            if (character === 'AC') {
+                document.getElementById('fInput').value = '';
+                document.getElementById('calc').value = '';
+                // Ẩn tất cả các khối kết quả
+                document.getElementById('result').innerHTML = '';
+                document.getElementById('result2').style.display = 'none';
+                document.getElementById('result3').style.display = 'none';
+                document.getElementById('result_calc').style.display = 'none';
+                document.getElementById('x_calc').style.display = 'none';
+                activeInputField = document.getElementById('fInput');
+
+            } else if (character === 'Del') {
+                // Chỉ xóa ký tự của ô đang hoạt động
+                activeInputField.value = activeInputField.value.slice(0, -1);
+            } else {
+                // Chỉ thêm ký tự vào ô đang hoạt động
+                activeInputField.value += character;
+            }
+
+            activeInputField.focus(); // Đưa con trỏ về ô đang hoạt động
+
+            // Tự động gọi hàm tương ứng với ô đang được sửa
+            if (activeInputField.id === 'fInput') {
+                updatePreview();
+            } else if (activeInputField.id === 'calc') {
+                CALC();
+            }
+        }
+    </script>
+</body>
+
+</html>
